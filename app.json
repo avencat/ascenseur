@@ -1,0 +1,12 @@
+{
+  "name": "ascenseur",
+  "displayName": "ascenseur",
+  "expo": {
+    "name": "ascenseur",
+    "slug": "ascenseur",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
