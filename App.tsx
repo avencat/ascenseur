@@ -1,19 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react'
+import { FlatList, SafeAreaView } from 'react-native'
 
-const App = () => (
-  <View style={styles.container}>
-    <Text>Open up App.tsx to start working on your app!</Text>
-  </View>
-)
+import Card from './src/components/Card'
+import { generateDeck } from './src/utils'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
+const App = () => {
+  const renderCard = useCallback(({ item }) => <Card {...item} />, [])
+
+  return (
+    <SafeAreaView>
+      <FlatList
+        data={generateDeck()}
+        renderItem={renderCard}
+        numColumns={3}
+        columnWrapperStyle={{ justifyContent: 'space-evenly', marginBottom: 10 }}
+      />
+    </SafeAreaView>
+  )
+}
 
 export default App
