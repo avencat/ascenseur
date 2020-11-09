@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
 
   columnItem: {
-    fontSize: 10
+    fontSize: 12
   },
 
   columnItemReversed: {
