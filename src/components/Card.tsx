@@ -1,7 +1,8 @@
 import React, { memo, useMemo } from 'react'
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
-import { Card as CardInterface, CardColor, isCardRed } from '../utils'
+import { isCardRed } from '../utils'
+import { Card as CardInterface, CardColor } from '../interfaces'
 
 const Card = memo<CardInterface>(({ color, number, value }) => {
   const styles = useMemo(() => StyleSheetCreator(color), [color]);

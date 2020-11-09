@@ -1,22 +1,13 @@
-import React, { useCallback } from 'react'
-import { FlatList, SafeAreaView } from 'react-native'
+import React from 'react'
+import { Provider } from 'react-redux'
 
-import Card from './src/components/Card'
-import { generateDeck } from './src/utils'
+import Root from './src/Root'
+import { store } from './src/redux/store'
 
-const App = () => {
-  const renderCard = useCallback(({ item }) => <Card {...item} />, [])
-
-  return (
-    <SafeAreaView>
-      <FlatList
-        data={generateDeck()}
-        renderItem={renderCard}
-        numColumns={3}
-        columnWrapperStyle={{ justifyContent: 'space-evenly', marginBottom: 10 }}
-      />
-    </SafeAreaView>
-  )
-}
+const App = () => (
+  <Provider store={store}>
+    <Root />
+  </Provider>
+)
 
 export default App
