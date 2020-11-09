@@ -43,9 +43,9 @@ export const shuffle = <T>(arr: T[]): T[] => {
 }
 
 const createEmptyArray = <T>(length: number, emptyValue: T) => {
-  const arr = [];
+  const arr = []
 
-  for (let i = 0; i < length; i+= 1) {
+  for (let i = 0; i < length; i += 1) {
     arr.push(emptyValue)
   }
 
