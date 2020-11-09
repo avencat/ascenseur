@@ -2,23 +2,27 @@ import React, { memo, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { isCardRed } from '../utils'
-import { Card as CardInterface, CardColor } from '../interfaces'
+import { Card as CardInterface, CardColor, CardNumber } from '../interfaces'
+
+import CardContent from './CardContent'
 
 const Card = memo<CardInterface>(({ color, number, value }) => {
   const styles = useMemo(() => StyleSheetCreator(color), [color]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.topLeftContainer}>
-        <Text style={styles.number}>{`${number}`}</Text>
+      <CardContent color={color} value={value} />
 
-        <Text>{`${color}`}</Text>
+      <View style={styles.topLeftContainer}>
+        <Text style={styles.number}>{`${CardNumber[number - 1]}`}</Text>
+
+        <Text style={styles.text}>{`${color}`}</Text>
       </View>
 
       <View style={styles.bottomRightContainer}>
-        <Text style={styles.number}>{`${number}`}</Text>
+        <Text style={styles.number}>{`${CardNumber[number - 1]}`}</Text>
 
-        <Text>{`${color}`}</Text>
+        <Text style={styles.text}>{`${color}`}</Text>
       </View>
     </View>
   )
@@ -28,9 +32,9 @@ const StyleSheetCreator = (color: CardColor) => (
   StyleSheet.create({
     bottomRightContainer: {
       alignItems: 'center',
-      bottom: 10,
+      bottom: 6,
       position: 'absolute',
-      right: 10,
+      right: 6,
       transform: [{
         rotate: '180deg'
       }]
@@ -45,14 +49,19 @@ const StyleSheetCreator = (color: CardColor) => (
     },
 
     number: {
-      color: isCardRed(color) ? 'red' : 'black'
+      color: isCardRed(color) ? 'red' : 'black',
+      fontSize: 12
+    },
+
+    text: {
+      fontSize: 10
     },
 
     topLeftContainer: {
       alignItems: 'center',
-      left: 10,
+      left: 6,
       position: 'absolute',
-      top: 10
+      top: 6
     }
   })
 )

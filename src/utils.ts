@@ -41,3 +41,35 @@ export const shuffle = <T>(arr: T[]): T[] => {
 
   return array
 }
+
+const createEmptyArray = <T>(length: number, emptyValue: T) => {
+  const arr = [];
+
+  for (let i = 0; i < length; i+= 1) {
+    arr.push(emptyValue)
+  }
+
+  return arr
+}
+
+export const calculateColumns = (value: number) => {
+  if (value < 4 || value > 10) {
+    return [createEmptyArray(value, '')]
+  }
+
+  const columnValue = Math.floor(Math.min(value / 2, value > 8 ? 4 : 3))
+
+  const restValue = value % columnValue
+
+  const columns = []
+
+  columns.push(createEmptyArray(columnValue, ''))
+
+  if (restValue) {
+    columns.push(createEmptyArray(restValue, ''))
+  }
+
+  columns.push(createEmptyArray(columnValue, ''))
+
+  return columns
+}
