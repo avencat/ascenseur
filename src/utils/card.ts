@@ -1,4 +1,4 @@
-import { Card, CardColor } from './interfaces/card'
+import { Card, CardColor } from '../interfaces'
 
 const generateColorCards = (color: CardColor): Card[] => {
   const cards = []

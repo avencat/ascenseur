@@ -6,7 +6,7 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "standard": "standardx --fix **/*.ts"
+    "standard": "standardx --fix **/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts"
   },
   "dependencies": {
     "expo": "39.0.4",
@@ -22,7 +22,8 @@
     "react-native-web": "0.13.18",
     "react-redux": "7.2.2",
     "redux": "4.0.5",
-    "redux-saga": "1.1.3"
+    "redux-saga": "1.1.3",
+    "typesocket": "1.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",

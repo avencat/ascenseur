@@ -8776,6 +8776,11 @@ typescript@3.9.7:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
+typesocket@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/typesocket/-/typesocket-1.0.1.tgz#56d0bbc33b340f296e37004c542db6228acae457"
+  integrity sha512-Ab+YgrBAxg1SEH0Bgtl6aCx4Jp0Wxtjir4OY/EYZbkU4HKDd7d6GPjWakZaHQ0HO6V3vqXLuY4xpLm1lumVJRA==
+
 ua-parser-js@^0.7.18:
   version "0.7.22"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
