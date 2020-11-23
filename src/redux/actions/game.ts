@@ -8,6 +8,7 @@ import type {
 
 export enum GAME_ACTION_TYPES {
   CARD_PLAYED = 'CARD_PLAYED',
+  END_GAME = 'END_GAME',
   INIT_GAME = 'INIT_GAME',
   JOIN_GAME = 'JOIN_GAME',
   LIST_GAMES = 'LIST_GAMES',
@@ -34,6 +35,17 @@ export enum GAME_ACTION_TYPES {
 export const cardPlayed = (card: PlayedCard) => ({
   data: { card },
   type: GAME_ACTION_TYPES.CARD_PLAYED
+})
+
+export const endGame = ({
+  roundCount,
+  winner
+}: {
+  roundCount: number
+  winner: Player
+}) => ({
+  data: { roundCount, winner },
+  type: GAME_ACTION_TYPES.END_GAME
 })
 
 export const gameFull = (gameId: string) => ({

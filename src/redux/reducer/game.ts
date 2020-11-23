@@ -13,6 +13,7 @@ import { GAME_ACTION_TYPES } from '../actions'
 
 export interface GameState {
   currentPlayerTurn?: Player
+  finalRoundCount?: number
   game?: Game
   games: Game[]
   hand: PlayerCard[]
@@ -23,6 +24,7 @@ export interface GameState {
   turn?: RoundTurn
   turnWinner?: Player
   turnAction: TURN_ACTION
+  winner?: Player
 }
 
 const initialState: GameState = {
@@ -37,6 +39,11 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
   [GAME_ACTION_TYPES.CARD_PLAYED]: (state, { data }) => ({
     ...state,
     playedCards: [...state.playedCards, data.card]
+  }),
+  [GAME_ACTION_TYPES.END_GAME]: (state, { data }) => ({
+    ...state,
+    finalRoundCount: data.roundCount,
+    winner: data.winner
   }),
   [GAME_ACTION_TYPES.GAME_FULL]: (state, { data }) => ({
     ...state,
@@ -119,7 +126,7 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
   }),
   [GAME_ACTION_TYPES.SET_PLAYERS]: (state, { data }) => ({
     ...state,
-    players: data?.players.map(player => ({ ...player, turnWon: 0 }))
+    players: data?.players.map((player: Player) => ({ ...player, turnWon: 0 }))
   }),
   [GAME_ACTION_TYPES.SET_SCORE]: (state, { data }) => ({
     ...state,

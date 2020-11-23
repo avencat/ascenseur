@@ -5,6 +5,7 @@ import {
   StyleSheet,
 } from 'react-native'
 
+import EndModal from '../components/InGame/EndModal'
 import InGameFooter from '../components/InGame/Footer'
 import InGameHeader from '../components/InGame/Header'
 import InGamePlayedCards from '../components/InGame/PlayedCards'
@@ -20,6 +21,8 @@ const InGame = memo(() => {
         ListEmptyComponent={<InGamePlayedCards />}
         ListFooterComponent={<InGameFooter />}
       />
+
+      <EndModal />
     </SafeAreaView>
   )
 })

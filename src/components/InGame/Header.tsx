@@ -43,19 +43,23 @@ const InGameHeader = connect(
     return (
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text>{isHisTurn ? '>' : ''}</Text>
+          <Text style={styles.gridContent}>{isHisTurn ? '>' : ''}</Text>
         </View>
         <View style={styles.gridColumnName}>
-          <Text style={isHisTurn && styles.currentTurnName}>{item.name}</Text>
+          <Text style={[styles.gridContent, isHisTurn && styles.currentTurnName]}>
+            {item.name}
+          </Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>{typeof item.bet === 'number' ? item.bet : '...'}</Text>
+          <Text style={styles.gridContent}>
+            {typeof item.bet === 'number' ? item.bet : '...'}
+          </Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>{item.score}</Text>
+          <Text style={styles.gridContent}>{item.score}</Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>{item.turnWon}</Text>
+          <Text style={styles.gridContent}>{item.turnWon}</Text>
         </View>
       </View>
     )
@@ -70,16 +74,16 @@ const InGameHeader = connect(
       <View style={styles.row}>
         <View style={styles.column} />
         <View style={styles.gridColumnName}>
-          <Text>Nom</Text>
+          <Text style={styles.gridHeader}>Nom</Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>Contrat</Text>
+          <Text style={styles.gridHeader}>Contrat</Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>Score</Text>
+          <Text style={styles.gridHeader}>Score</Text>
         </View>
         <View style={[styles.gridColumn, styles.center]}>
-          <Text>Plis</Text>
+          <Text style={styles.gridHeader}>Plis</Text>
         </View>
       </View>
     )
@@ -87,7 +91,7 @@ const InGameHeader = connect(
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 2 }}>
+      <View style={styles.gridContainer}>
         <FlatList
           listKey='firstPlayers'
           data={players}
@@ -98,18 +102,20 @@ const InGameHeader = connect(
         />
       </View>
       <View style={[styles.column, styles.flexEnd]}>
-        <Text>
-          Atout :
-        </Text>
-        {!!(asset.number && asset.color) && (
-          <Card
-            color={convertServerCardColorToCardColor(asset.color)}
-            identifier={`${asset.color}-${asset.number}`}
-            number={asset.number}
-            value={asset.number}
-            width={(Dimensions.get('window').width - 30) / 4}
-          />
-        )}
+        <View>
+          <Text style={styles.title}>
+            Atout :
+          </Text>
+          {!!(asset.number && asset.color) && (
+            <Card
+              color={convertServerCardColorToCardColor(asset.color)}
+              identifier={`${asset.color}-${asset.number}`}
+              number={asset.number}
+              value={asset.number}
+              width={Math.min(Math.floor((Dimensions.get('window').width - 30) / 4), 120)}
+            />
+          )}
+        </View>
       </View>
     </View>
   )
@@ -147,6 +153,18 @@ const styles = StyleSheet.create({
     flex: 7
   },
 
+  gridContainer: {
+    flex: 2
+  },
+
+  gridContent: {
+    fontSize: 10
+  },
+
+  gridHeader: {
+    fontSize: 11
+  },
+
   row: {
     flexDirection: 'row'
   },
@@ -154,6 +172,10 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomColor: 'black',
     borderBottomWidth: 1
+  },
+
+  title: {
+    marginBottom: 10
   }
 })
 

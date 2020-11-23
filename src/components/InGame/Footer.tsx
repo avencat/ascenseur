@@ -89,17 +89,23 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
       />
     )
   }, [card, hasSetBet])
+  const renderSeparator = useCallback(() => (
+    <View style={styles.separator} />
+  ), [])
 
   return (
     <>
-      <Text>
+      <Text style={styles.title}>
         Mes cartes :
       </Text>
       <FlatList
         keyExtractor={item => item._id}
         data={cards}
         horizontal
+        ItemSeparatorComponent={renderSeparator}
         renderItem={renderCard}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatListContent}
       />
       {!hasSetBet && isMyTurn && (
         <View style={styles.buttonContainer}>
@@ -114,7 +120,7 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
       {!!card && isMyTurn && (
         <Button title='Valider la carte' onPress={playCardCallback} />
       )}
-      <Text>
+      <Text style={styles.comment}>
         {`C'est ${
           !isMyTurn ? `au tour de ${currentPlayerTurn?.name}` : 'à mon tour'
         } de ${
@@ -133,6 +139,25 @@ const styles = StyleSheet.create({
   buttonControllerContainer: {
     alignItems: 'center',
     flexDirection: 'row'
+  },
+
+  comment: {
+    marginHorizontal: 15,
+    marginVertical: 20,
+    textAlign: 'center'
+  },
+
+  flatListContent: {
+    paddingHorizontal: 15
+  },
+
+  separator: {
+    width: 10
+  },
+
+  title: {
+    marginBottom: 10,
+    marginHorizontal: 15
   }
 })
 

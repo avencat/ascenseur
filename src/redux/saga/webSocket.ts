@@ -10,10 +10,11 @@ import {
 } from '../../interfaces'
 
 import { ROUTE_NAMES } from '../../navigation/main'
-import { navigate } from '../../navigation/NavigationActions'
 import { formatConnectMessage } from '../../utils/webSocket'
+import { navigate } from '../../navigation/NavigationActions'
 import {
   cardPlayed,
+  endGame,
   gameFull,
   gameInit,
   gameJoined,
@@ -28,7 +29,10 @@ import {
   setPlayers,
   setScore,
   setSocketId,
-  setTurn, setTurnWinner, shouldPlayCard, shouldSetBet,
+  setTurn,
+  setTurnWinner,
+  shouldPlayCard,
+  shouldSetBet,
   WEB_SOCKET_ACTION_TYPES,
   WEB_SOCKET_CHANNEL,
 } from '../actions'
@@ -134,6 +138,10 @@ function * messageReceivedSaga ({
 
     case WEB_SOCKET_ACTION.SHOULD_PLAY_CARD:
       yield put(shouldPlayCard(data))
+      break
+
+    case WEB_SOCKET_ACTION.END_GAME:
+      yield put(endGame(data))
       break
 
     default:
