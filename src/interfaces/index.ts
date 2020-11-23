@@ -1,4 +1,5 @@
 export * from './card'
+export * from './game'
 export * from './redux'
 export * from './player'
 export * from './message'

@@ -1,7 +1,10 @@
-import { Card } from './card'
-
 export interface Player {
-  hand: Card[]
+  _id: string
+  bet?: number
+  gameId: string
   name: string
-  points: number
+  position: number | undefined
+  score: number
+  socketId: number
+  turnWon: number | undefined
 }

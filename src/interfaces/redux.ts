@@ -11,3 +11,7 @@ export interface GlobalState {
   game: GameState,
   webSocket: WebSocketState
 }
+
+export interface TypedStoreAction<T, D> extends Action<T> {
+  data: D
+}

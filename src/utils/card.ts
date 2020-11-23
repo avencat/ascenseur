@@ -1,25 +1,36 @@
-import { Card, CardColor } from '../interfaces'
+import {
+  Card,
+  CARD_COLOR,
+  convertServerCardColorToCardColor,
+  PlayerCard,
+  ServerCard,
+} from '../interfaces'
 
-const generateColorCards = (color: CardColor): Card[] => {
+const generateColorCards = (color: CARD_COLOR): Card[] => {
   const cards = []
 
   for (let number = 1; number < 14; number += 1) {
-    cards.push({ color, key: `${number}-${color}`, number, value: number })
+    cards.push({
+      color,
+      identifier: `${number}-${color}`,
+      number,
+      value: number
+    })
   }
 
   return cards
 }
 
 export const generateDeck = (): Card[] => [
-  ...generateColorCards(CardColor.CLUB),
-  ...generateColorCards(CardColor.DIAMOND),
-  ...generateColorCards(CardColor.HEART),
-  ...generateColorCards(CardColor.SPADE)
+  ...generateColorCards(CARD_COLOR.CLUB),
+  ...generateColorCards(CARD_COLOR.DIAMOND),
+  ...generateColorCards(CARD_COLOR.HEART),
+  ...generateColorCards(CARD_COLOR.SPADE)
 ]
 
-export const isCardRed = (color: CardColor): boolean => color === CardColor.HEART || color === CardColor.DIAMOND
+export const isCardRed = (color: CARD_COLOR): boolean => color === CARD_COLOR.HEART || color === CARD_COLOR.DIAMOND
 
-export const isCardBlack = (color: CardColor): boolean => color === CardColor.SPADE || color === CardColor.CLUB
+export const isCardBlack = (color: CARD_COLOR): boolean => color === CARD_COLOR.SPADE || color === CARD_COLOR.CLUB
 
 /**
  * Return a new array made by the initial array shuffled
@@ -73,3 +84,17 @@ export const calculateColumns = (value: number) => {
 
   return columns
 }
+
+export const convertPlayerCardToCard = ({ _id, card }: PlayerCard): Card => ({
+  color: convertServerCardColorToCardColor(card.color),
+  identifier: _id,
+  number: card.number,
+  value: card.number,
+})
+
+export const convertServerCardToCard = (card: ServerCard): Card => ({
+  color: convertServerCardColorToCardColor(card.color),
+  identifier: card._id,
+  number: card.number,
+  value: card.number,
+})

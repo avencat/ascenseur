@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import { MiddlewareAPI } from 'redux'
 import { TypeSocket } from 'typesocket'
 
@@ -19,21 +20,35 @@ export const webSocketMiddleware = (url: string) => {
     })
     socket.on('disconnected', () => {
       console.log('disconnected')
+      Alert.alert(
+        'Un problème est survenu',
+        "Veuillez relancer l'app s'il-vous-plaît."
+      )
       return store.dispatch({ type: WEB_SOCKET_ACTION_TYPES.DISCONNECTED })
     })
-    socket.on('message', (message) => store.dispatch(messageReceived(message)))
-    socket.on('invalidMessage', (message) => store.dispatch(invalidMessageReceived(message)))
+    socket.on(
+      'message',
+      (message) =>
+        store.dispatch(messageReceived(message))
+    )
+    socket.on(
+      'invalidMessage',
+      (message) =>
+        store.dispatch(invalidMessageReceived(message))
+    )
     socket.connect()
 
     return (next: (action: any) => void) => (action: any) => {
       // We're acting on an action with type of SEND_MESSAGE.
       // Don't forget to check if the socket is in readyState == 1.
       // Other readyStates may result in an exception being thrown.
-      if (action.type && action.type === WEB_SOCKET_ACTION_TYPES.SEND_MESSAGE && socket.readyState === 1) {
-        console.log('send message', action.data.message)
-        socket.send(action.data.message)
-      } else if (socket.readyState !== 1) {
-        socket.connect()
+      if (action.type && action.type === WEB_SOCKET_ACTION_TYPES.SEND_MESSAGE) {
+        if (socket.readyState === 1) {
+          console.log('send message', action.data.message)
+          socket.send(action.data.message)
+        } else {
+          socket.connect()
+        }
       }
 
       return next(action)

@@ -1,17 +1,34 @@
 import React, { memo, useMemo } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import { isCardRed } from '../utils'
-import { Card as CardInterface, CardColor, CardNumber } from '../interfaces'
+import { Card as CardInterface, CARD_COLOR, CardNumber } from '../interfaces'
 
 import CardContent from './CardContent'
 
-const Card = memo<CardInterface>(({ color, number, value }) => {
-  const styles = useMemo(() => StyleSheetCreator(color), [color]);
+interface Props extends CardInterface {
+  onPress?(): void
+  selected?: boolean
+  width?: number
+}
+
+const Card = memo<Props>(({
+  color,
+  number,
+  onPress,
+  selected,
+  value,
+  width
+}) => {
+  const styles = useMemo(() => StyleSheetCreator(color, width), [color]);
 
   return (
-    <View style={styles.container}>
-      <CardContent color={color} value={value} />
+    <TouchableOpacity
+      activeOpacity={onPress ? 0.8 : 1}
+      onPress={onPress}
+      style={[styles.container, selected && styles.selectedContainer]}
+    >
+      <CardContent color={color} value={value} width={width} />
 
       <View style={styles.topLeftContainer}>
         <Text style={styles.number}>{`${CardNumber[number - 1]}`}</Text>
@@ -24,17 +41,17 @@ const Card = memo<CardInterface>(({ color, number, value }) => {
 
         <Text style={styles.text}>{`${color}`}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 })
 
-const StyleSheetCreator = (color: CardColor) => (
+const StyleSheetCreator = (color: CARD_COLOR, width = 120) => (
   StyleSheet.create({
     bottomRightContainer: {
       alignItems: 'center',
-      bottom: 6,
+      bottom: Math.floor(6 / 120 * width),
       position: 'absolute',
-      right: 6,
+      right: Math.floor(6 / 120 * width),
       transform: [{
         rotate: '180deg'
       }]
@@ -42,26 +59,30 @@ const StyleSheetCreator = (color: CardColor) => (
 
     container: {
       borderColor: 'black',
-      borderRadius: 10,
-      borderWidth: 2,
-      height: 170,
-      width: 120
+      borderRadius: Math.floor(10 / 120 * width),
+      borderWidth: Math.floor(2 / 120 * width),
+      height: Math.floor((170 / 120) * width),
+      width
     },
 
     number: {
       color: isCardRed(color) ? 'red' : 'black',
-      fontSize: 12
+      fontSize: Math.floor(12 / 120 * width)
+    },
+
+    selectedContainer: {
+      borderColor: 'blue'
     },
 
     text: {
-      fontSize: 10
+      fontSize: Math.floor(10 / 120 * width)
     },
 
     topLeftContainer: {
       alignItems: 'center',
-      left: 6,
+      left: Math.floor(6 / 120 * width),
       position: 'absolute',
-      top: 6
+      top: Math.floor(6 / 120 * width)
     }
   })
 )

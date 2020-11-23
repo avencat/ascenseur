@@ -5,7 +5,8 @@ export enum WEB_SOCKET_ACTION_TYPES {
   DISCONNECTED = 'WEB_SOCKET_DISCONNECTED',
   INVALID_MESSAGE_RECEIVED = 'WEB_SOCKET_INVALID_MESSAGE_RECEIVED',
   MESSAGE_RECEIVED = 'WEB_SOCKET_MESSAGE_RECEIVED',
-  SEND_MESSAGE = 'WEB_SOCKET_SEND_MESSAGE'
+  SEND_MESSAGE = 'WEB_SOCKET_SEND_MESSAGE',
+  SET_SOCKET_ID = 'SET_SOCKET_ID'
 }
 
 export enum WEB_SOCKET_CHANNEL {
@@ -25,4 +26,9 @@ export const messageReceived = (message: Message) => ({
 export const sendMessage = (message: Message) => ({
   data: { message },
   type: WEB_SOCKET_ACTION_TYPES.SEND_MESSAGE
+})
+
+export const setSocketId = (socketId: number) => ({
+  data: { socketId },
+  type: WEB_SOCKET_ACTION_TYPES.SET_SOCKET_ID
 })

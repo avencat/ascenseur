@@ -1,16 +1,18 @@
 import React, { memo, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-import { CardColor } from '../interfaces'
+import { CARD_COLOR } from '../interfaces'
 import { calculateColumns } from '../utils'
 
 interface Props {
-  color: CardColor
+  color: CARD_COLOR
   value: number
+  width?: number
 }
 
-const CardContent = memo<Props>(({ color, value }) => {
+const CardContent = memo<Props>(({ color, value, width }) => {
   const columns = useMemo(() => value > 10 ? [['']] : calculateColumns(value), [value])
+  const styles = useMemo(() => StyleSheetCreator(width), [width])
 
   return (
     <View style={styles.container}>
@@ -33,7 +35,7 @@ const CardContent = memo<Props>(({ color, value }) => {
   )
 })
 
-const styles = StyleSheet.create({
+const StyleSheetCreator = (width = 120) => StyleSheet.create({
   column: {
     alignItems: 'center',
     height: '100%',
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
   },
 
   columnItem: {
-    fontSize: 12
+    fontSize: Math.floor(12 / 120 * width)
   },
 
   columnItemReversed: {
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
   },
 
   columnItemSolo: {
-    fontSize: 50
+    fontSize: Math.floor(50 / 120 * width)
   },
 
   container: {
@@ -59,8 +61,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginHorizontal: 20,
-    marginVertical: 10
+    marginHorizontal: Math.floor(20 / 120 * width),
+    marginVertical: Math.floor(10 / 120 * width)
   }
 })
 
