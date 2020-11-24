@@ -23,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = createStore(
   persistedReducer,
-  applyMiddleware(webSocketMiddleware('ws://localhost:8000'), sagaMiddleware)
+  applyMiddleware(webSocketMiddleware('ws://ascenseur-deno.herokuapp.com'), sagaMiddleware)
 )
 
 export const persistedStore = persistStore(store)
