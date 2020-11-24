@@ -3,6 +3,7 @@ import { MiddlewareAPI } from 'redux'
 import { TypeSocket } from 'typesocket'
 
 import { Message } from '../../../interfaces'
+import { WS_URL } from '../../../constants/env'
 import {
   invalidMessageReceived,
   messageReceived,
@@ -12,17 +13,22 @@ import {
 export const webSocketMiddleware = (url: string) => {
   return (store: MiddlewareAPI<any, any>) => {
     const socket = new TypeSocket<Message>(url)
+    let hasConnected = false
 
     // We dispatch the actions for further handling here:
     socket.on('connected', () => {
+      hasConnected = true
       console.log('connected')
       return store.dispatch({ type: WEB_SOCKET_ACTION_TYPES.CONNECTED })
     })
     socket.on('disconnected', () => {
+      if (!hasConnected) {
+        return
+      }
       console.log('disconnected')
       Alert.alert(
         'Un problème est survenu',
-        "Veuillez relancer l'app s'il-vous-plaît."
+        `Veuillez relancer l'app s'il-vous-plaît.\n${WS_URL}`
       )
       return store.dispatch({ type: WEB_SOCKET_ACTION_TYPES.DISCONNECTED })
     })

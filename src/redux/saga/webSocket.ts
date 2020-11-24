@@ -10,7 +10,7 @@ import {
   ServerMessage,
   TypedStoreAction,
   WEB_SOCKET_ACTION,
-  WebSocketData,
+  WebSocketData
 } from '../../interfaces'
 import {
   cardPlayed,
@@ -19,6 +19,7 @@ import {
   gameInit,
   gameJoined,
   gamesList,
+  listGames,
   sendMessage,
   setBetForPlayer,
   setGame,
@@ -34,7 +35,7 @@ import {
   shouldPlayCard,
   shouldSetBet,
   WEB_SOCKET_ACTION_TYPES,
-  WEB_SOCKET_CHANNEL,
+  WEB_SOCKET_CHANNEL
 } from '../actions'
 
 function * connectedSaga () {
@@ -157,6 +158,10 @@ function * invalidMessageReceivedSaga ({
   { message: WebSocketData }
 >) {
   console.log(message)
+
+  if (message === `Connected to ${WEB_SOCKET_CHANNEL.LOBBY}.`) {
+    yield put(listGames())
+  }
 }
 
 export function * webSocketSaga () {

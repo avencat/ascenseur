@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Action, Dispatch } from 'redux'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import {
   Button,
   FlatList,
@@ -8,16 +8,16 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity, View,
+  TouchableOpacity,
+  View
 } from 'react-native'
 
 import { Game, GlobalState } from '../interfaces'
-import { initGame, joinGame, listGames } from '../redux/actions'
+import { initGame, joinGame } from '../redux/actions'
 
 interface DispatchProps {
   initGame(nbPlayers: number, name: string): void
   joinGame(game: string, name: string): void
-  listGames(): void
 }
 
 interface StateProps {
@@ -30,8 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): DispatchProps => ({
   initGame: (nbPlayers, name) => dispatch(
     initGame({ name, nbPlayers })
   ),
-  joinGame: (game, name) => dispatch(joinGame(game, name)),
-  listGames: () => dispatch(listGames())
+  joinGame: (game, name) => dispatch(joinGame(game, name))
 })
 
 const mapStateToProps = (state: GlobalState): StateProps => ({
@@ -41,17 +40,11 @@ const mapStateToProps = (state: GlobalState): StateProps => ({
 const Lobby = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
   games,
   initGame,
-  joinGame,
-  listGames
+  joinGame
 }) => {
   const [gameSelected, setGameSelected] = useState<string>()
   const [name, setName] = useState<string>()
   const [nbPlayers, setNbPlayers] = useState<number>(3)
-  useEffect(() => {
-    setTimeout(() => {
-      listGames()
-    }, 100)
-  }, [])
 
   const onChangeText = useCallback((text: string) => setName(text), [setName])
   const initGameCallback = useCallback(() => {

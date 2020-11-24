@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 
+import { WS_URL } from '../../constants/env'
 import { gameSaga, webSocketSaga } from '../saga'
 import { webSocketMiddleware } from './middlewares'
 import { gameReducer, webSocketReducer } from '../reducer'
@@ -23,7 +24,7 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = createStore(
   persistedReducer,
-  applyMiddleware(webSocketMiddleware('ws://ascenseur-deno.herokuapp.com'), sagaMiddleware)
+  applyMiddleware(webSocketMiddleware(WS_URL), sagaMiddleware)
 )
 
 export const persistedStore = persistStore(store)
