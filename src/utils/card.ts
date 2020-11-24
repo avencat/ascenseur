@@ -3,7 +3,8 @@ import {
   CARD_COLOR,
   convertServerCardColorToCardColor,
   PlayerCard,
-  ServerCard,
+  SERVER_CARD_COLOR,
+  ServerCard
 } from '../interfaces'
 
 const generateColorCards = (color: CARD_COLOR): Card[] => {
@@ -98,3 +99,55 @@ export const convertServerCardToCard = (card: ServerCard): Card => ({
   number: card.number,
   value: card.number,
 })
+
+const SERVER_CARD_COLOR_VALUE = {
+  [SERVER_CARD_COLOR.CLUB]: 0,
+  [SERVER_CARD_COLOR.DIAMOND]: 1,
+  [SERVER_CARD_COLOR.HEART]: 2,
+  [SERVER_CARD_COLOR.SPADE]: 3
+}
+
+export const sortServerCardColor = (a: SERVER_CARD_COLOR, b: SERVER_CARD_COLOR, mainColor?: SERVER_CARD_COLOR) => {
+  if (a === b) {
+    return 0
+  } else if (a === mainColor) {
+    return -1
+  } else if (b === mainColor) {
+    return 1
+  }
+
+  return SERVER_CARD_COLOR_VALUE[a] - SERVER_CARD_COLOR_VALUE[b]
+}
+
+const DEFAULT_CARD_VALUE = {
+  1: 13,
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
+  7: 6,
+  8: 7,
+  9: 8,
+  10: 9,
+  11: 10,
+  12: 11,
+  13: 12
+}
+
+export const sortCards = (cards: PlayerCard[], color?: SERVER_CARD_COLOR, asset?: SERVER_CARD_COLOR) => {
+  const cardsToPlay = cards
+    .filter(({ card }) => card.color === color)
+
+  return [...(cardsToPlay.length ? cardsToPlay : cards)]
+    .sort(({ card: a }, { card: b }) => {
+      const cardColorValue = sortServerCardColor(a.color, b.color, asset)
+
+      if (cardColorValue !== 0) {
+        return cardColorValue
+      }
+
+      // @ts-ignore
+      return DEFAULT_CARD_VALUE[a.number] - DEFAULT_CARD_VALUE[b.number]
+    })
+}

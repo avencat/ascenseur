@@ -1,13 +1,26 @@
 import { connect } from 'react-redux'
 import { Action, Dispatch } from 'redux'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
+import {
+  Button,
+  FlatList,
+  PlatformColor,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 
 import Card from '../Card'
-import { convertPlayerCardToCard } from '../../utils'
 import { TURN_ACTION } from '../../constants/turn_action'
-import { GlobalState, Player, PlayerCard } from '../../interfaces'
+import { convertPlayerCardToCard, sortCards } from '../../utils'
 import { playCard, setBet as validateBet } from '../../redux/actions'
+import {
+  GlobalState,
+  Player,
+  PlayerCard,
+  SERVER_CARD_COLOR
+} from '../../interfaces'
 
 interface DispatchProps {
   playCard(id: string): void
@@ -15,8 +28,10 @@ interface DispatchProps {
 }
 
 interface StateProps {
+  assetColor?: SERVER_CARD_COLOR
   cards: PlayerCard[]
   cardsDealt?: number
+  color?: SERVER_CARD_COLOR
   currentPlayerTurn?: Player
   isMyTurn: boolean
   me?: Player
@@ -31,8 +46,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): DispatchProps => ({
 })
 
 const mapStateToProps = (state: GlobalState): StateProps => ({
+  assetColor: state.game.round?.asset,
   cards: state.game.hand,
   cardsDealt: state.game.round?.cardsDealt,
+  color: state.game.color,
   currentPlayerTurn: state.game.currentPlayerTurn,
   isMyTurn: state.game.currentPlayerTurn?._id === state.game.player?._id,
   me: state.game.player,
@@ -40,8 +57,10 @@ const mapStateToProps = (state: GlobalState): StateProps => ({
 })
 
 const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
+  assetColor,
   cards,
   cardsDealt,
+  color,
   currentPlayerTurn,
   isMyTurn,
   me,
@@ -51,8 +70,10 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
 }) => {
   const [bet, setBet] = useState<number>(0)
   const [card, setCard] = useState<string>()
+  const [minify, setMinify] = useState<boolean>(false)
 
   const hasSetBet = useMemo(() => typeof me?.bet === 'number', [me])
+  const styles = useMemo(() => StyleSheetCreator(minify), [minify])
 
   const increaseBet = useCallback(() => {
     setBet(Math.min(cardsDealt || 0, bet + 1))
@@ -78,6 +99,10 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
     }
   }, [card])
 
+  const toggleMinify = useCallback(() => {
+    setMinify(!minify)
+  }, [minify])
+
   const renderCard = useCallback(({ item }: { item: PlayerCard }) => {
     const cardItem = convertPlayerCardToCard(item)
 
@@ -86,21 +111,30 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
         {...cardItem}
         onPress={hasSetBet ? selectCard(item._id) : undefined}
         selected={card === item._id}
+        style={minify ? styles.singleCard : undefined}
       />
     )
-  }, [card, hasSetBet])
+  }, [card, hasSetBet, minify])
   const renderSeparator = useCallback(() => (
     <View style={styles.separator} />
   ), [])
 
   return (
     <>
-      <Text style={styles.title}>
-        {`Mes cartes (${cards.length}) :`}
-      </Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          {`Mes cartes (${cards.length}) :`}
+        </Text>
+
+        <TouchableOpacity onPress={toggleMinify}>
+          <Text style={styles.minify}>
+            {minify ? 'Espacer' : 'Minifier'}
+          </Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         keyExtractor={item => item._id}
-        data={cards}
+        data={sortCards(cards, color, assetColor)}
         horizontal
         ItemSeparatorComponent={renderSeparator}
         renderItem={renderCard}
@@ -131,7 +165,7 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
   )
 }))
 
-const styles = StyleSheet.create({
+const StyleSheetCreator = (isMinified: boolean) => StyleSheet.create({
   buttonContainer: {
     alignItems: 'center'
   },
@@ -148,16 +182,33 @@ const styles = StyleSheet.create({
   },
 
   flatListContent: {
-    paddingHorizontal: 15
+    paddingLeft: isMinified ? 120 : 15,
+    paddingRight: 15
+  },
+
+  minify: {
+    color: PlatformColor('link'),
+    marginBottom: 10,
+    marginHorizontal: 15
   },
 
   separator: {
     width: 10
   },
 
+  singleCard: {
+    marginLeft: isMinified ? -105 : undefined
+  },
+
   title: {
     marginBottom: 10,
     marginHorizontal: 15
+  },
+
+  titleContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 })
 

@@ -1,5 +1,11 @@
 import React, { memo, useMemo } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from 'react-native'
 
 import { isCardRed } from '../utils'
 import { Card as CardInterface, CARD_COLOR, CardNumber } from '../interfaces'
@@ -9,6 +15,7 @@ import CardContent from './CardContent'
 interface Props extends CardInterface {
   onPress?(): void
   selected?: boolean
+  style?: ViewStyle
   width?: number
 }
 
@@ -17,6 +24,7 @@ const Card = memo<Props>(({
   number,
   onPress,
   selected,
+  style,
   value,
   width
 }) => {
@@ -24,9 +32,9 @@ const Card = memo<Props>(({
 
   return (
     <TouchableOpacity
-      activeOpacity={onPress ? 0.8 : 1}
+      activeOpacity={1}
       onPress={onPress}
-      style={[styles.container, selected && styles.selectedContainer]}
+      style={[styles.container, selected && styles.selectedContainer, style]}
     >
       <CardContent color={color} value={value} width={width} />
 
@@ -58,6 +66,7 @@ const StyleSheetCreator = (color: CARD_COLOR, width = 120) => (
     },
 
     container: {
+      backgroundColor: 'white',
       borderColor: 'black',
       borderRadius: Math.floor(10 / 120 * width),
       borderWidth: Math.floor(2 / 120 * width),

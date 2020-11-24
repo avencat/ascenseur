@@ -1,9 +1,11 @@
+import { CARD_COLOR } from '../../interfaces'
 import type {
-  Game, PlayedCard,
+  Game,
+  PlayedCard,
   Player,
   PlayerCard,
   Round,
-  RoundTurn,
+  RoundTurn
 } from '../../interfaces'
 
 export enum GAME_ACTION_TYPES {
@@ -19,6 +21,7 @@ export enum GAME_ACTION_TYPES {
   PLAY_CARD = 'PLAY_CARD',
   SET_BET = 'SET_BET',
   SET_BET_FOR_PLAYER = 'SET_BET_FOR_PLAYER',
+  SET_CARD_COLOR = 'SET_CARD_COLOR',
   SET_GAME = 'SET_GAME',
   SET_GAME_ROUND = 'SET_GAME_ROUND',
   SET_GAME_WITH_GAME_ID = 'SET_GAME_WITH_GAME_ID',
@@ -178,4 +181,11 @@ export const shouldSetBet = ({
 }: { player: Player }) => ({
   data: { player },
   type: GAME_ACTION_TYPES.SHOULD_SET_BET
+})
+
+export const setCardColor = ({
+  color
+}: { color: CARD_COLOR }) => ({
+  data: { color },
+  type: GAME_ACTION_TYPES.SET_CARD_COLOR
 })

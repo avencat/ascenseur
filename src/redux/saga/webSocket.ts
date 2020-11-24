@@ -1,9 +1,5 @@
 import { Alert } from 'react-native'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
-
-import { ROUTE_NAMES } from '../../navigation/main'
-import { formatConnectMessage } from '../../utils/webSocket'
-import { navigate } from '../../navigation/NavigationActions'
 import {
   Game,
   GlobalState,
@@ -12,6 +8,10 @@ import {
   WEB_SOCKET_ACTION,
   WebSocketData
 } from '../../interfaces'
+
+import { ROUTE_NAMES } from '../../navigation/main'
+import { navigate } from '../../navigation/NavigationActions'
+import { formatConnectMessage } from '../../utils/webSocket'
 import {
   cardPlayed,
   endGame,
@@ -22,6 +22,7 @@ import {
   listGames,
   sendMessage,
   setBetForPlayer,
+  setCardColor,
   setGame,
   setGameRound,
   setGameWithGameId,
@@ -123,6 +124,10 @@ function * messageReceivedSaga ({
 
     case WEB_SOCKET_ACTION.CARD_PLAYED:
       yield put(cardPlayed(data))
+      break
+
+    case WEB_SOCKET_ACTION.SET_CARD_COLOR:
+      yield put(setCardColor(data))
       break
 
     case WEB_SOCKET_ACTION.SET_SCORE:

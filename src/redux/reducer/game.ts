@@ -1,3 +1,4 @@
+import { GAME_ACTION_TYPES } from '../actions'
 import { TURN_ACTION } from '../../constants/turn_action'
 import {
   Game,
@@ -7,11 +8,12 @@ import {
   Reaction,
   Round,
   RoundTurn,
+  SERVER_CARD_COLOR,
   StoreAction,
 } from '../../interfaces'
-import { GAME_ACTION_TYPES } from '../actions'
 
 export interface GameState {
+  color?: SERVER_CARD_COLOR
   currentPlayerTurn?: Player
   finalRoundCount?: number
   game?: Game
@@ -101,6 +103,10 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
       return player
     })
   }),
+  [GAME_ACTION_TYPES.SET_CARD_COLOR]: (state, { data }) => ({
+    ...state,
+    color: data.color
+  }),
   [GAME_ACTION_TYPES.SET_HAND]: (state, { data }) => ({
     ...state,
     hand: data.cards,
@@ -146,6 +152,7 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
   }),
   [GAME_ACTION_TYPES.SET_TURN_WINNER]: (state, { data }) => ({
     ...state,
+    color: undefined,
     playedCards: [],
     players: state.players.map(player => {
       if (player._id === data.player._id) {
