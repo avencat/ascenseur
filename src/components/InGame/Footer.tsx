@@ -96,7 +96,7 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
   return (
     <>
       <Text style={styles.title}>
-        Mes cartes :
+        {`Mes cartes (${cards.length}) :`}
       </Text>
       <FlatList
         keyExtractor={item => item._id}

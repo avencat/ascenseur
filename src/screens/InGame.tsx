@@ -1,16 +1,52 @@
 import React, { memo } from 'react'
+import { StackNavigationProp } from '@react-navigation/stack'
 import {
+  Alert,
   FlatList,
+  Platform,
   SafeAreaView,
-  StyleSheet,
+  StyleSheet
 } from 'react-native'
 
 import EndModal from '../components/InGame/EndModal'
 import InGameFooter from '../components/InGame/Footer'
 import InGameHeader from '../components/InGame/Header'
 import InGamePlayedCards from '../components/InGame/PlayedCards'
+import { MainStackParamList, ROUTE_NAMES } from '../navigation/main'
 
-const InGame = memo(() => {
+interface Props {
+  navigation: StackNavigationProp<MainStackParamList, ROUTE_NAMES.IN_GAME>
+}
+
+
+const InGame = memo<Props>(({ navigation }) => {
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault()
+
+        // Prompt the user before leaving the screen
+        Alert.alert(
+          'Quitter la partie',
+          'Vous ne pourrez pas réintégrer la partie...',
+          [
+            { text: 'Rester', style: 'cancel', onPress: () => {} },
+            {
+              text: 'Quitter la partie',
+              style: 'destructive',
+              // If the user confirmed, then we dispatch
+              // the action we blocked earlier
+              // This will continue the action that had
+              // triggered the removal of the screen
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }),
+    [navigation]
+  )
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -29,7 +65,8 @@ const InGame = memo(() => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: Platform.OS === 'android' ? 50 : undefined
   },
 
   contentContainer: {

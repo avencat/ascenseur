@@ -5,7 +5,14 @@ import Lobby from '../screens/Lobby'
 import InGame from '../screens/InGame'
 import GameLobby from '../screens/GameLobby'
 
-const Stack = createStackNavigator();
+// @XXX: Interfaces won't work
+export type MainStackParamList = {
+  [ROUTE_NAMES.LOBBY]: undefined
+  [ROUTE_NAMES.GAME_LOBBY]: undefined
+  [ROUTE_NAMES.IN_GAME]: undefined
+}
+
+const Stack = createStackNavigator<MainStackParamList>();
 
 export enum ROUTE_NAMES {
   LOBBY = 'Lobby',
@@ -22,7 +29,7 @@ const MainNavigator = () => (
     <Stack.Screen
       name={ROUTE_NAMES.IN_GAME}
       component={InGame}
-      options={{ headerShown: false }}
+      options={{ gestureEnabled: false, headerShown: false }}
     />
   </Stack.Navigator>
 )
