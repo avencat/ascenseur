@@ -4,6 +4,7 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import {
   Button,
   FlatList,
+  Platform,
   PlatformColor,
   StyleSheet,
   Text,
@@ -187,7 +188,15 @@ const StyleSheetCreator = (isMinified: boolean) => StyleSheet.create({
   },
 
   minify: {
-    color: PlatformColor('link'),
+    ...Platform.select({
+      ios: {
+        color: PlatformColor('link')
+      },
+      android: {
+        color: PlatformColor('?attr/autoLink')
+      },
+      default: { color: 'blue' }
+    }),
     marginBottom: 10,
     marginHorizontal: 15
   },
