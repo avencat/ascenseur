@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
 import React, { memo, useCallback } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text } from 'react-native'
 
-import Card from '../Card'
-import { convertServerCardToCard } from '../../utils'
+import PlayedCardComponent from './PlayedCard'
 import { GlobalState, PlayedCard } from '../../interfaces'
 
 interface StateProps {
@@ -19,16 +18,9 @@ const mapStateToProps = (state: GlobalState): StateProps => ({
 const InGamePlayedCards = connect(mapStateToProps)(memo<Props>(({
   playedCards
 }) => {
-  const renderPlayedCard = useCallback(({ item }: { item: PlayedCard }) => {
-    const card = convertServerCardToCard(item.card)
-
-    return (
-      <View style={styles.cardContainer}>
-        <Text>{item.player.name}</Text>
-        <Card {...card} />
-      </View>
-    )
-  }, [])
+  const renderPlayedCard = useCallback(({ item }: { item: PlayedCard }) => (
+    <PlayedCardComponent {...item} />
+  ), [])
 
   return (
     <>
@@ -39,16 +31,13 @@ const InGamePlayedCards = connect(mapStateToProps)(memo<Props>(({
         horizontal
         renderItem={renderPlayedCard}
         contentContainerStyle={styles.contentContainer}
+        showsHorizontalScrollIndicator={false}
       />
     </>
   )
 }))
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    marginHorizontal: 5
-  },
-
   contentContainer: {
     paddingHorizontal: 10
   },

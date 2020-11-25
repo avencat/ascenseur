@@ -19,6 +19,7 @@ export enum GAME_ACTION_TYPES {
   GAME_JOINED = 'GAME_JOINED',
   GAMES_LIST = 'GAMES_LIST',
   PLAY_CARD = 'PLAY_CARD',
+  REMOVE_OLD_PLAYED_CARDS = 'REMOVE_OLD_PLAYED_CARDS',
   SET_BET = 'SET_BET',
   SET_BET_FOR_PLAYER = 'SET_BET_FOR_PLAYER',
   SET_CARD_COLOR = 'SET_CARD_COLOR',
@@ -100,6 +101,10 @@ export const listGames = () => ({
 export const playCard = (cardId: string) => ({
   data: { cardId },
   type: GAME_ACTION_TYPES.PLAY_CARD
+})
+
+export const removeOldPlayedCards = () => ({
+  type: GAME_ACTION_TYPES.REMOVE_OLD_PLAYED_CARDS
 })
 
 export const setBet = (bet: number) => ({

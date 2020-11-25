@@ -127,11 +127,13 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
           {`Mes cartes (${cards.length}) :`}
         </Text>
 
-        <TouchableOpacity onPress={toggleMinify}>
-          <Text style={styles.minify}>
-            {minify ? 'Espacer' : 'Minifier'}
-          </Text>
-        </TouchableOpacity>
+        {cards.length > 3 && (
+          <TouchableOpacity onPress={toggleMinify}>
+            <Text style={styles.minify}>
+              {minify ? 'Espacer' : 'Minifier'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <FlatList
         keyExtractor={item => item._id}

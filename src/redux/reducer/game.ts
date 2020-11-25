@@ -9,7 +9,7 @@ import {
   Round,
   RoundTurn,
   SERVER_CARD_COLOR,
-  StoreAction,
+  StoreAction
 } from '../../interfaces'
 
 export interface GameState {
@@ -19,6 +19,9 @@ export interface GameState {
   game?: Game
   games: Game[]
   hand: PlayerCard[]
+  oldAssetColor?: SERVER_CARD_COLOR
+  oldAssetNumber?: number
+  oldPlayedCards: PlayedCard[]
   playedCards: PlayedCard[]
   player?: Player
   players: Player[]
@@ -32,6 +35,7 @@ export interface GameState {
 const initialState: GameState = {
   games: [],
   hand: [],
+  oldPlayedCards: [],
   playedCards: [],
   players: [],
   turnAction: TURN_ACTION.BET
@@ -90,6 +94,12 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
       }
       return player
     })
+  }),
+  [GAME_ACTION_TYPES.REMOVE_OLD_PLAYED_CARDS]: (state) => ({
+    ...state,
+    oldAssetColor: undefined,
+    oldAssetNumber: undefined,
+    oldPlayedCards: []
   }),
   [GAME_ACTION_TYPES.SET_BET_FOR_PLAYER]: (state, { data }) => ({
     ...state,
@@ -153,6 +163,9 @@ const reactions: Record<GAME_ACTION_TYPES, Reaction<GameState, GAME_ACTION_TYPES
   [GAME_ACTION_TYPES.SET_TURN_WINNER]: (state, { data }) => ({
     ...state,
     color: undefined,
+    oldAssetColor: state.round?.asset,
+    oldAssetNumber: state.round?.assetNumber,
+    oldPlayedCards: [...state.playedCards],
     playedCards: [],
     players: state.players.map(player => {
       if (player._id === data.player._id) {
