@@ -1,6 +1,6 @@
-import { Alert } from 'react-native'
 import { MiddlewareAPI } from 'redux'
 import { TypeSocket } from 'typesocket'
+import { Alert, Platform } from 'react-native'
 
 import { Message } from '../../../interfaces'
 import { WS_URL } from '../../../constants/env'
@@ -26,10 +26,14 @@ export const webSocketMiddleware = (url: string) => {
         return
       }
       console.log('disconnected')
-      Alert.alert(
-        'Un problème est survenu',
-        `Veuillez relancer l'app s'il-vous-plaît.\n${WS_URL}`
-      )
+      if (Platform.OS === 'web') {
+        alert(`Veuillez relancer l'app s'il-vous-plaît.\n${WS_URL}`)
+      } else {
+        Alert.alert(
+          'Un problème est survenu',
+          `Veuillez relancer l'app s'il-vous-plaît.\n${WS_URL}`
+        )
+      }
       return store.dispatch({ type: WEB_SOCKET_ACTION_TYPES.DISCONNECTED })
     })
     socket.on(
