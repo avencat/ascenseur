@@ -1,0 +1,19 @@
+{
+  "files": {
+    "app.js": "/ascenseur/static/js/app.15d2ef46.chunk.js",
+    "app.js.map": "/ascenseur/static/js/app.15d2ef46.chunk.js.map",
+    "runtime~app.js": "/ascenseur/static/js/runtime~app.322ce3f8.js",
+    "runtime~app.js.map": "/ascenseur/static/js/runtime~app.322ce3f8.js.map",
+    "static/js/2.791b9aca.chunk.js": "/ascenseur/static/js/2.791b9aca.chunk.js",
+    "static/js/2.791b9aca.chunk.js.map": "/ascenseur/static/js/2.791b9aca.chunk.js.map",
+    "index.html": "/ascenseur/index.html",
+    "manifest.json": "/ascenseur/manifest.json",
+    "serve.json": "/ascenseur/serve.json",
+    "static/js/2.791b9aca.chunk.js.LICENSE.txt": "/ascenseur/static/js/2.791b9aca.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.322ce3f8.js",
+    "static/js/2.791b9aca.chunk.js",
+    "static/js/app.15d2ef46.chunk.js"
+  ]
+}
