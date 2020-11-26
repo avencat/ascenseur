@@ -4,10 +4,11 @@ import {
   Dimensions,
   FlatList,
   Modal,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
+  View
 } from 'react-native'
 
 import { GlobalState, Player } from '../../interfaces'
@@ -71,8 +72,14 @@ const EndModal = connect(mapStateToProps)(memo<Props>(({
   }, [])
   const amWinner = useMemo(() => me && winner?._id === me?._id, [me, winner])
 
+  // @TODO Remove once Expo upgrades react-native-web to v0.14 (also remove custom modal style)
+  if (!winner) {
+    return null
+  }
+
   return (
-    <Modal visible={!!winner}>
+    <Modal visible={!!winner} style={Platform.OS === 'web' && styles.modal}>
+      {/* @TODO remove custom <Modal> styles once react-native-web has been updated to 0.14 */}
       <SafeAreaView style={styles.container}>
         <Text>
           {'Vous avez '}
@@ -139,6 +146,12 @@ const styles = StyleSheet.create({
 
   gridHeader: {
     fontSize: 13
+  },
+
+  // @TODO Remove once react-native-web 0.14 is available on this project
+  modal: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'white'
   },
 
   row: {

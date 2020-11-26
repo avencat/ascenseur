@@ -4,6 +4,7 @@ import React, { memo, useCallback, useState } from 'react'
 import {
   Button,
   FlatList,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -60,6 +61,7 @@ const Lobby = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
   const setGameSelectedCallback = useCallback((id: string) => () => {
     setGameSelected(id)
   }, [setGameSelected])
+
   const renderGame = useCallback(({ item }: { item: Game }) => {
     return (
       <TouchableOpacity
@@ -94,9 +96,11 @@ const Lobby = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
 
   return (
     <SafeAreaView>
+      {/* web needs extraData otherwise it won't update, don't know why */}
       <FlatList
         keyExtractor={(item: Game) => item?._id}
         data={games}
+        extraData={Platform.OS === 'web' && gameSelected}
         renderItem={renderGame}
         style={styles.gamesContainer}
         contentContainerStyle={styles.gamesContentContainer}

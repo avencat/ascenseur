@@ -188,10 +188,10 @@ const StyleSheetCreator = (isMinified: boolean) => StyleSheet.create({
   minify: {
     ...Platform.select({
       ios: {
-        color: PlatformColor('link')
+        color: typeof PlatformColor === 'function' && PlatformColor('link')
       },
       android: {
-        color: PlatformColor('?attr/autoLink')
+        color: typeof PlatformColor === 'function' && PlatformColor('?attr/autoLink')
       },
       default: { color: 'blue' }
     }),
