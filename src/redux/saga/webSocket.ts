@@ -51,7 +51,7 @@ function * messageReceivedSaga ({
 >) {
   console.log(message)
   const {
-    from,
+    from, // eslint-disable-line
     message: { action, data, message: messageMessage },
     to
   } = message
@@ -76,7 +76,7 @@ function * messageReceivedSaga ({
       break
 
     case WEB_SOCKET_ACTION.GAME_JOINED:
-      const socketId = yield select(
+      const socketId = yield select( //eslint-disable-line
         (state: GlobalState) => state.webSocket.socketId
       )
 

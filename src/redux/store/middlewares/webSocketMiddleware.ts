@@ -27,6 +27,7 @@ export const webSocketMiddleware = (url: string) => {
       }
       console.log('disconnected')
       if (Platform.OS === 'web') {
+        /* global alert */
         alert(`Veuillez relancer l'app s'il-vous-plaît.\n${WS_URL}`)
       } else {
         Alert.alert(

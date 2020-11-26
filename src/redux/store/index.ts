@@ -10,7 +10,7 @@ import { gameReducer, webSocketReducer } from '../reducer'
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage: AsyncStorage
 }
 
 const sagaMiddleware = createSagaMiddleware()

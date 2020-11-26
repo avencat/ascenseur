@@ -7,6 +7,13 @@ export enum CARD_COLOR {
   SPADE = '♠️'
 }
 
+export enum SERVER_CARD_COLOR {
+  'CLUB' = 'club',
+  'DIAMOND' = 'diamond',
+  'HEART' = 'heart',
+  'SPADE' = 'spade'
+}
+
 export const convertServerCardColorToCardColor = (color: SERVER_CARD_COLOR): CARD_COLOR => {
   switch (color) {
     case SERVER_CARD_COLOR.CLUB:
@@ -18,13 +25,6 @@ export const convertServerCardColorToCardColor = (color: SERVER_CARD_COLOR): CAR
     default:
       return CARD_COLOR.SPADE
   }
-}
-
-export enum SERVER_CARD_COLOR {
-  'CLUB' = 'club',
-  'DIAMOND' = 'diamond',
-  'HEART' = 'heart',
-  'SPADE' = 'spade'
 }
 
 export const CardNumber = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'P', 'D', 'M']

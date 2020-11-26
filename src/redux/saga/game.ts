@@ -5,7 +5,7 @@ import { GAME_ACTION_TYPES, sendMessage, WEB_SOCKET_CHANNEL } from '../actions'
 import {
   GlobalState,
   TypedStoreAction,
-  WEB_SOCKET_ACTION,
+  WEB_SOCKET_ACTION
 } from '../../interfaces'
 
 function * initGame ({
@@ -51,7 +51,7 @@ function * joinGame ({
 >) {
   const message = formatPacketMessage({
     to: WEB_SOCKET_CHANNEL.LOBBY,
-    message: { action: WEB_SOCKET_ACTION.JOIN_GAME, data: { game, name } },
+    message: { action: WEB_SOCKET_ACTION.JOIN_GAME, data: { game, name } }
   })
 
   yield put(sendMessage(message))
@@ -73,7 +73,7 @@ function * setBet ({
   yield put(sendMessage(message))
 }
 
-function * playCard({
+function * playCard ({
   data: { cardId: playerCard }
 }: TypedStoreAction<GAME_ACTION_TYPES.PLAY_CARD, { cardId: string }>) {
   const game = yield select((state: GlobalState) => state.game.game?._id)

@@ -90,14 +90,14 @@ export const convertPlayerCardToCard = ({ _id, card }: PlayerCard): Card => ({
   color: convertServerCardColorToCardColor(card.color),
   identifier: _id,
   number: card.number,
-  value: card.number,
+  value: card.number
 })
 
 export const convertServerCardToCard = (card: ServerCard): Card => ({
   color: convertServerCardColorToCardColor(card.color),
   identifier: card._id,
   number: card.number,
-  value: card.number,
+  value: card.number
 })
 
 const SERVER_CARD_COLOR_VALUE = {
