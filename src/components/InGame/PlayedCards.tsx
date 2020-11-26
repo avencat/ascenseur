@@ -12,7 +12,9 @@ interface StateProps {
 type Props = StateProps
 
 const mapStateToProps = (state: GlobalState): StateProps => ({
-  playedCards: state.game.playedCards
+  playedCards: state.game.oldPlayedCards.length
+    ? state.game.oldPlayedCards
+    : state.game.playedCards
 })
 
 const InGamePlayedCards = connect(mapStateToProps)(memo<Props>(({
@@ -25,6 +27,7 @@ const InGamePlayedCards = connect(mapStateToProps)(memo<Props>(({
   return (
     <>
       <Text style={styles.title}>Cartes jouées :</Text>
+
       <FlatList
         keyExtractor={item => `${item.card._id}-${item.player._id}`}
         data={playedCards}

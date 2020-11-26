@@ -13,11 +13,14 @@ import {
 } from 'react-native'
 
 import Card from '../Card'
+import EndTurn from './EndTurn'
+import TurnSentence from './TurnSentence'
 import { TURN_ACTION } from '../../constants/turn_action'
 import { convertPlayerCardToCard, sortCards } from '../../utils'
 import { playCard, setBet as validateBet } from '../../redux/actions'
 import {
   GlobalState,
+  PlayedCard,
   Player,
   PlayerCard,
   SERVER_CARD_COLOR
@@ -36,6 +39,7 @@ interface StateProps {
   currentPlayerTurn?: Player
   isMyTurn: boolean
   me?: Player
+  oldPlayedCards: PlayedCard[]
   turnAction: TURN_ACTION
 }
 
@@ -54,6 +58,7 @@ const mapStateToProps = (state: GlobalState): StateProps => ({
   currentPlayerTurn: state.game.currentPlayerTurn,
   isMyTurn: state.game.currentPlayerTurn?._id === state.game.player?._id,
   me: state.game.player,
+  oldPlayedCards: state.game.oldPlayedCards,
   turnAction: state.game.turnAction
 })
 
@@ -62,11 +67,10 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
   cards,
   cardsDealt,
   color,
-  currentPlayerTurn,
   isMyTurn,
   me,
+  oldPlayedCards,
   playCard,
-  turnAction,
   validateBet
 }) => {
   const [bet, setBet] = useState<number>(0)
@@ -120,6 +124,10 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
     <View style={styles.separator} />
   ), [])
 
+  if (oldPlayedCards.length) {
+    return <EndTurn />
+  }
+
   return (
     <>
       <View style={styles.titleContainer}>
@@ -157,13 +165,7 @@ const InGameFooter = connect(mapStateToProps, mapDispatchToProps)(memo<Props>(({
       {!!card && isMyTurn && (
         <Button title='Valider la carte' onPress={playCardCallback} />
       )}
-      <Text style={styles.comment}>
-        {`C'est ${
-          !isMyTurn ? `au tour de ${currentPlayerTurn?.name}` : 'à mon tour'
-        } de ${
-          turnAction === TURN_ACTION.BET ? `valider le contrat.` : 'jouer.'
-        }`}
-      </Text>
+      <TurnSentence />
     </>
   )
 }))
@@ -176,12 +178,6 @@ const StyleSheetCreator = (isMinified: boolean) => StyleSheet.create({
   buttonControllerContainer: {
     alignItems: 'center',
     flexDirection: 'row'
-  },
-
-  comment: {
-    marginHorizontal: 15,
-    marginVertical: 20,
-    textAlign: 'center'
   },
 
   flatListContent: {

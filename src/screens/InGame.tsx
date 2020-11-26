@@ -11,7 +11,6 @@ import {
 import EndModal from '../components/InGame/EndModal'
 import InGameFooter from '../components/InGame/Footer'
 import InGameHeader from '../components/InGame/Header'
-import EndTurnModal from '../components/InGame/EndTurnModal'
 import InGamePlayedCards from '../components/InGame/PlayedCards'
 import { MainStackParamList, ROUTE_NAMES } from '../navigation/main'
 
@@ -60,8 +59,6 @@ const InGame = memo<Props>(({ navigation }) => {
       />
 
       <EndModal />
-
-      <EndTurnModal />
     </SafeAreaView>
   )
 })
