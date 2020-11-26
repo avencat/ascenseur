@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "homepage": "http://avencat.github.io/ascenseur",
+  "homepage": "https://5fbf4ec5f5af040008520bcd--festive-almeida-9c83d9.netlify.app",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -8,7 +8,6 @@
     "start": "react-native start",
     "test": "jest",
     "standard": "standardx --fix **/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
-    "deploy": "gh-pages -d web-build",
     "predeploy": "expo build:web"
   },
   "dependencies": {
