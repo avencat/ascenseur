@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
 
 import Card from '../Card'
@@ -7,7 +7,7 @@ import {
   convertServerCardColorToCardColor,
   GlobalState,
   Player,
-  SERVER_CARD_COLOR,
+  SERVER_CARD_COLOR
 } from '../../interfaces'
 
 interface StateProps {
@@ -23,8 +23,12 @@ type Props = StateProps
 
 const mapStateToProps = (state: GlobalState): StateProps => ({
   asset: {
-    color: state.game.round?.asset,
-    number: state.game.round?.assetNumber
+    color: !!(state.game.oldAssetColor && state.game.oldAssetNumber)
+      ? state.game.oldAssetColor
+      : state.game.round?.asset,
+    number: !!(state.game.oldAssetColor && state.game.oldAssetNumber)
+      ? state.game.oldAssetNumber
+      : state.game.round?.assetNumber
   },
   currentPlayerTurnId: state.game.currentPlayerTurn?._id ?? '',
   players: state.game.players
