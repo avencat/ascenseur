@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "homepage": "https://5fbf4ec5f5af040008520bcd--festive-almeida-9c83d9.netlify.app",
+  "homepage": "https://festive-almeida-9c83d9.netlify.app",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
